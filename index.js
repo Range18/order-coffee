@@ -31,6 +31,27 @@ updateBeverages();
 const modalOverlay = document.querySelector(".modal-overlay");
 const modalClose = document.querySelector(".modal-close");
 const modalText = document.querySelector(".modal-text");
+const modalTableBody = document.querySelector(".modal-table-body");
+
+const beverageLabels = {
+  espresso: "Эспрессо",
+  capuccino: "Капучино",
+  cacao: "Какао",
+};
+
+const milkLabels = {
+  usual: "обычное",
+  "no-fat": "обезжиренное",
+  soy: "соевое",
+  coconut: "кокосовое",
+};
+
+const optionLabels = {
+  "whipped cream": "взбитые сливки",
+  marshmallow: "зефирки",
+  chocolate: "шоколад",
+  cinnamon: "корица",
+};
 
 function getBeverageWord(count) {
   if (count % 10 === 1 && count % 100 !== 11) {
@@ -50,7 +71,27 @@ function getBeverageWord(count) {
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
-  const count = form.querySelectorAll(".beverage").length;
+  const beverages = Array.from(form.querySelectorAll(".beverage"));
+  const count = beverages.length;
+
+  modalTableBody.innerHTML = "";
+
+  beverages.forEach((beverage) => {
+    const selectedDrink = beverage.querySelector("select").value;
+    const selectedMilk = beverage.querySelector('input[type="radio"]:checked').value;
+    const selectedOptions = Array.from(
+      beverage.querySelectorAll('input[type="checkbox"]:checked')
+    ).map((input) => optionLabels[input.value]);
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>${beverageLabels[selectedDrink]}</td>
+      <td>${milkLabels[selectedMilk]}</td>
+      <td>${selectedOptions.join(", ")}</td>
+    `;
+
+    modalTableBody.append(row);
+  });
 
   modalText.textContent = `Вы заказали ${count} ${getBeverageWord(count)}`;
   modalOverlay.classList.remove("hidden");
