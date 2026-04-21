@@ -35,3 +35,21 @@ addButton.addEventListener("click", () => {
 
   addButton.closest("div").before(newBeverage);
 });
+
+const modalOverlay = document.querySelector(".modal-overlay");
+const modalClose = document.querySelector(".modal-close");
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+  modalOverlay.classList.remove("hidden");
+});
+
+modalClose.addEventListener("click", function () {
+  modalOverlay.classList.add("hidden");
+});
+
+modalOverlay.addEventListener("click", function (event) {
+  if (event.target === modalOverlay) {
+    modalOverlay.classList.add("hidden");
+  }
+});
