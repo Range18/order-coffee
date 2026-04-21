@@ -2,10 +2,29 @@
     border: 1px solid #eee;
     margin: 15px 0;
     padding: 15px;
+    position: relative;
 }
 
 .beverage-count {
     margin: 0 0 15px;
+}
+
+.remove-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: transparent;
+    padding: 2px 6px;
+    font-size: 22px;
+    line-height: 1;
+    color: #999;
+    cursor: pointer;
+}
+
+.remove-button:disabled {
+    color: #d5d5d5;
+    cursor: default;
 }
 
 .field {
@@ -44,4 +63,3 @@
     border: 2px solid orange;
     border-radius: 5px;
 }
-
