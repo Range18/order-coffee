@@ -6,9 +6,18 @@ function updateBeverages() {
   const canRemove = beverages.length > 1;
 
   beverages.forEach((beverage, index) => {
+    const milkInputs = beverage.querySelectorAll('input[type="radio"]');
+
     beverage.querySelector(".beverage-count").textContent = `Напиток №${index + 1}`;
     beverage.querySelector(".remove-button").disabled = !canRemove;
-    beverage.querySelectorAll('input[type="radio"]').forEach((input) => input.name = `milk-${index + 1}`);
+    milkInputs.forEach((input) => {
+      input.name = `milk-${index + 1}`;
+    });
+
+    if (!beverage.querySelector('input[type="radio"]:checked') && milkInputs[0]) {
+      milkInputs[0].checked = true;
+    }
+
     beverage.querySelector(".remove-button").onclick = () => {
       if (canRemove) {
         beverage.remove();
@@ -78,7 +87,10 @@ form.addEventListener("submit", function (event) {
 
   beverages.forEach((beverage) => {
     const selectedDrink = beverage.querySelector("select").value;
-    const selectedMilk = beverage.querySelector('input[type="radio"]:checked').value;
+    const selectedMilkInput =
+      beverage.querySelector('input[type="radio"]:checked') ||
+      beverage.querySelector('input[type="radio"]');
+    const selectedMilk = selectedMilkInput ? selectedMilkInput.value : "";
     const selectedOptions = Array.from(
       beverage.querySelectorAll('input[type="checkbox"]:checked')
     ).map((input) => optionLabels[input.value]);
@@ -86,7 +98,7 @@ form.addEventListener("submit", function (event) {
 
     row.innerHTML = `
       <td>${beverageLabels[selectedDrink]}</td>
-      <td>${milkLabels[selectedMilk]}</td>
+      <td>${milkLabels[selectedMilk] || ""}</td>
       <td>${selectedOptions.join(", ")}</td>
     `;
 
