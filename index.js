@@ -30,9 +30,29 @@ updateBeverages();
 
 const modalOverlay = document.querySelector(".modal-overlay");
 const modalClose = document.querySelector(".modal-close");
+const modalText = document.querySelector(".modal-text");
+
+function getBeverageWord(count) {
+  if (count % 10 === 1 && count % 100 !== 11) {
+    return "напиток";
+  }
+
+  if (
+    count % 10 >= 2 &&
+    count % 10 <= 4 &&
+    (count % 100 < 10 || count % 100 >= 20)
+  ) {
+    return "напитка";
+  }
+
+  return "напитков";
+}
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
+  const count = form.querySelectorAll(".beverage").length;
+
+  modalText.textContent = `Вы заказали ${count} ${getBeverageWord(count)}`;
   modalOverlay.classList.remove("hidden");
 });
 
